@@ -7,16 +7,12 @@ div.stButton > button {
 font-size: 16px;
 padding: 8px 14px;
 border-radius: 20px;
- border: 2px solid #white;
+ border: 2px solid white;
  background: #fade82; 
 color: #9d174d;
 div.stButton > button:
 hover { background: #A4CF97; 
 border-color: #A4CF97; } 
-}
-div.stButton > button:hover {
-background: #F1D6FF;
-border-color: #F1D6FF;
 }
 
 
@@ -46,7 +42,6 @@ requests = get_shared_requests()
 
 if "requests" not in st.session_state:
     st.session_state.requests = []
-# filter har insaan ka apna hai, isliye session_state mein hi rehta hai
 if "filter" not in st.session_state:
     st.session_state.filter = []
 col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
@@ -59,56 +54,57 @@ if col1.button("📚math"):
     if "📚math" not in st.session_state.filter:
         st.session_state.filter.append("📚math")
     if name:
-        requests.append({"text": f"{name} needs help with 📚math", "helpers": []})
+        requests.append({"text": f"{name} needs help with 📚math","owner": name, "helpers": []})
+
 if col2.button("Art🧶"):
     if "Art🧶" not in st.session_state.filter:
         st.session_state.filter.append("Art🧶")
     if name:
-        requests.append({"text": f"{name} needs help with Art🧶", "helpers": []})
+        requests.append({"text": f"{name} needs help with Art🧶","owner": name,  "helpers": []})
 
 col3, col4 = st.columns(2)
 if col3.button("reading📖"):
     if "reading📖" not in st.session_state.filter:
         st.session_state.filter.append("reading📖")
     if name:
-        requests.append({"text": f"{name} needs help with reading📖", "helpers": []})
+        requests.append({"text": f"{name} needs help with reading📖", "owner": name, "helpers": []})
 
 if col4.button("coding💻"):
     if "coding💻" not in st.session_state.filter:
         st.session_state.filter.append("coding💻")
     if name:
-        requests.append({"text": f"{name} needs help with coding💻", "helpers": []})
+        requests.append({"text": f"{name} needs help with coding💻", "owner": name, "helpers": []})
 col5, col6 = st.columns(2)
 if col5.button("swimming🏊🏻"):
     if "swimming🏊🏻" not in st.session_state.filter:
         st.session_state.filter.append("swimming🏊🏻")
     if name:
-        requests.append({"text": f"{name} needs help with swimming🏊🏻", "helpers": []})
+        requests.append({"text": f"{name} needs help with swimming🏊🏻","owner": name, "helpers": []})
 
 if col6.button("biking🚴🏻"):
     if "biking🚴🏻" not in st.session_state.filter:
         st.session_state.filter.append("biking🚴🏻")
     if name:
-        requests.append({"text": f"{name} needs help with biking🚴🏻", "helpers": []})
+        requests.append({"text": f"{name} needs help with biking🚴🏻", "owner": name, "helpers": []})
 
 col7, col8 = st.columns(2)
 if col7.button("music🎶"):
     if "music🎶" not in st.session_state.filter:
         st.session_state.filter.append("music🎶")
     if name:
-        requests.append({"text": f"{name} needs help with music🎶", "helpers": []})
+        requests.append({"text": f"{name} needs help with music🎶","owner": name,  "helpers": []})
 
 if col8.button("dancing💃🏻"):
     if "dancing💃🏻" not in st.session_state.filter:
         st.session_state.filter.append("dancing💃🏻")
     if name:
-        requests.append({"text": f"{name} needs help with dancing💃🏻", "helpers": []})
+        requests.append({"text": f"{name} needs help with dancing💃🏻","owner": name,  "helpers": []})
 # st.write(st.session_state.filter)
 # user=st.text_input("what do need help with??:")
 # st.write("Filter list:", st.session_state.filter)
 if st.button("+I need help with:"):
     if user and name:
-        requests.append({"text": f"{name} needs help with {user}", "helpers": []})
+        requests.append({"text": f"{name} needs help with {user}", "owner": name, "helpers": []})
 
 # if st.session_state.filter:
 # st.session_state.requests.append(st.session_state.filter[-1])
@@ -131,6 +127,7 @@ for i in range(len(requests)):
     if len(requests[i]["helpers"]) > 0:
         col_a.write("✅ Helping: " + ", ".join(requests[i]["helpers"]))
 
-    if col_c.button("🗑️", key="delete" + str(i)):
-        requests.pop(i)
-        st.rerun()
+    if requests[i].get("owner") == name:
+        if col_c.button("🗑️", key="delete" + str(i)):
+            requests.pop(i)
+            st.rerun()
