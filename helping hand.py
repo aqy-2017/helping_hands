@@ -15,7 +15,7 @@ hover { background: #A4CF97;
 border-color: #A4CF97; } 
 }
 div.stButton > button:hover {
-background: #A4CF97;
+background: #F1D6FF;
 border-color: #A4CF97;
 }
 
