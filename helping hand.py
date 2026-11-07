@@ -2,9 +2,17 @@ import streamlit as st
 st.title("Helping Hands🤝")
 st.markdown("""
 <style>
+.stApp{background-color:#D6E4FF}
 div.stButton > button {
-font-size: 4px;
-padding: 1px 4px;
+font-size: 16px;
+padding: 8px 14px;
+border-radius: 20px;
+ border: 2px solid #white;
+ background: #fade82; 
+color: #9d174d;
+div.stButton > button:
+hover { background: #A4CF97; 
+border-color: #A4CF97; } 
 }
 
 
@@ -104,25 +112,21 @@ if st.button("+I need help with:"):
 st.subheader(f"{', '.join(st.session_state.filter)} requests:")
 
 for i in range(len(requests)):
-    col_a, col_b = st.columns([4, 1])
+    col_a, col_b, col_c = st.columns([4, 1, 1])
 
     col_a.write(requests[i]["text"])
 
-    if helper_name:
-        label = f"{helper_name} will help 🙂"
-    else:
-        label = "I'll help 🙂"
-
-    if col_b.button(label, key=i):  # key=a unique number or word like an id for button
-        if helper_name:
-
-            if helper_name not in requests[i]["helpers"]:
-                requests[i]["helpers"].append(helper_name)
-
-            st.success(f"{helper_name} will help with {requests[i]['text']} ")
+    # I'll help button
+    if col_b.button("I'll help 🙂", key="help" + str(i)):
+        if name:
+            if name not in requests[i]["helpers"]:
+                requests[i]["helpers"].append(name)
         else:
-            st.warning("please type you name first")
+            st.warning("please type your name first")
 
     if len(requests[i]["helpers"]) > 0:
-        names = ", ".join(requests[i]["helpers"])
-        col_a.write(f"✅ Helping: {names}")
+        col_a.write("✅ Helping: " + ", ".join(requests[i]["helpers"]))
+
+    if col_c.button("🗑️", key="delete" + str(i)):
+        requests.pop(i)
+        st.rerun()
